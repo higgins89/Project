@@ -91,13 +91,13 @@ move(Agent_PId,Type,{Target_X,Target_Y},XRange,YRange)->
       case get({X,Y}) of
            undefined ->
                Local_State = [get({TX,TY})|| TX <- [X-1,X,X+1],TY<-[Y-1,Y,Y+1]],
-               TotSwimmers = lists:sum([1 || {_APId,male} <- Local_State--[{self(),male}
+               TotMales = lists:sum([1 || {_APId,male} <- Local_State--[{self(),male}
               ]]),
-               TotSurfers = lists:sum([1 || {_APId,female} <- Local_State--[{self(),female}]]),
+               TotFemale = lists:sum([1 || {_APId,female} <- Local_State--[{self(),female}]]),
                if
-               (TotSurfers > TotSwimmers) -> gather_stats(X+1,Y,XRange,YRange,AccA
+               (TotFemale > TotMales) -> gather_stats(X+1,Y,XRange,YRange,AccA
               +1,AccB);
-               (TotSurfers < TotSwimmers) -> gather_stats(X+1,Y,XRange,YRange,AccA,AccB
+               (TotFemale < TotMales) -> gather_stats(X+1,Y,XRange,YRange,AccA,AccB
               +1);
                true -> gather_stats(X+1,Y,XRange,YRange,AccA,AccB)
                end;
